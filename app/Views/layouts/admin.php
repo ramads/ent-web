@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="<?php assets('images/favicon.png'); ?>">
 
     <!-- CSS Assets -->
+    <?= $this->renderSection('content-css') ?>
     <link rel="stylesheet" href="<?php assets('css/app.css'); ?>">
 
     <!-- Javascript Assets -->
@@ -60,4 +61,5 @@
     window.addEventListener("DOMContentLoaded", () => Alpine.start());
 </script>
 </body>
+<?= $this->renderSection('content-js') ?>
 </html>

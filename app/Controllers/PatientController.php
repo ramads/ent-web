@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AddressModel;
 use App\Models\AppointmentModel;
 use App\Models\PatientModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -15,11 +16,19 @@ class PatientController extends BaseController
 
         $data = $patient->findAll();
 
-        return view('patient/index', ['data' => $data]);
+        return view('patient/index', [
+            'data' => $data,
+        ]);
     }
 
     public function insert() {
-        return view('patient/form');
+        $address = new AddressModel();
+        $provinces = $address->getProvinces();
+
+//        dd($provinces);
+        return view('patient/form', [
+            'provinces' => $provinces
+        ]);
     }
 
     public function save($id = null) {

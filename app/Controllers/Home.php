@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AddressModel;
 use App\Models\AppointmentModel;
 
 class Home extends BaseController
@@ -9,6 +10,7 @@ class Home extends BaseController
     public function index(): string
     {
         $appointments = new AppointmentModel();
+
         $listPatient = $appointments->getAppointmentWithPatient();
         $nextPatient = $appointments->getNextAppointment();
 
@@ -16,6 +18,7 @@ class Home extends BaseController
         if ($nextPatient->jenis_kelamin == 'wanita') {
             $avatar = 'female_user.png';
         }
+
         return view('dash', [
             'listPatient' => $listPatient,
             'nextPatient' => $nextPatient,

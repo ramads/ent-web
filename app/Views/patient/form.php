@@ -10,7 +10,7 @@
 </div>
 <div class="grid grid-cols-12 gap-4 sm:gap-5 lg:gap-6">
 
-        <div class="col-span-12 sm:col-span-8">
+        <div class="col-span-12 sm:col-span-12">
             <div class="card p-4 sm:p-5">
                 <form action="<?php echo base_url('index.php/patient/save'); ?>" method="post" accept-charset="utf-8">
                 <p class="text-base font-medium text-slate-700 dark:text-navy-100">
@@ -79,45 +79,44 @@
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <label class="block">
                             <span>Province/State</span>
-                            <span class="relative mt-1.5 flex">
-                          <input class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
-                                 placeholder="State/Province" type="text" name="province">
-                          <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
-                            <i class="fa-solid fa-flag"></i>
-                          </span>
-                        </span>
+                            <select id="provinces_selector" name="province"
+                                    class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
+                            >
+                                <option value="">Select Province</option>
+                                <?php foreach ($provinces as $prov): ?>
+                                    <option value="<?php echo $prov->id_provinsi; ?>"><?php echo $prov->nama_provinsi; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </label>
+
                         <label class="block">
                             <span>City</span>
-                            <span class="relative mt-1.5 flex">
-                          <input class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
-                                 placeholder="City/Town" type="text" name="city">
-                          <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
-                            <i class="fa-solid fa-city text-base"></i>
-                          </span>
-                        </span>
+                            <select id="cities_selector"
+                                    name="city"
+                                    class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
+                            >
+                                <option value="">Select Province First</option>
+                            </select>
                         </label>
                     </div>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <label class="block">
                             <span>District</span>
-                            <span class="relative mt-1.5 flex">
-                          <input class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
-                                 placeholder="District" type="text" name="district">
-                          <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
-                            <i class="fa-solid fa-location-pin text-base"></i>
-                          </span>
-                        </span>
+                            <select id="district_selector"
+                                    name="district"
+                                    class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
+                            >
+                                <option value="">Select City First</option>
+                            </select>
                         </label>
                         <label class="block">
                             <span>Village</span>
-                            <span class="relative mt-1.5 flex">
-                          <input class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
-                                 placeholder="Village" type="text" name="village">
-                          <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
-                            <i class="fa-solid fa-map-location"></i>
-                          </span>
-                        </span>
+                            <select id="village_selector"
+                                    name="village"
+                                    class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
+                            >
+                                <option value="">Select District First</option>
+                            </select>
                         </label>
                     </div>
 
@@ -131,4 +130,59 @@
             </div>
         </div>
 </div>
+<?= $this->endSection(); ?>
+
+<?= $this->section('content-css'); ?>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('content-js'); ?>
+<script src="<?php assets("packages/jquery-3.7.1.min.js"); ?>"></script>
+<script>
+    $("#provinces_selector").on('change', function(){
+        $.get("<?php echo base_url('index.php/address/cities/')?>" + this.value, function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
+
+
+            var selector = $('#cities_selector');
+            selector.empty()
+            $('#district_selector').empty().append($("<option></option>").attr("value", "").text("Select City First"))
+            $('#village_selector').empty().append($("<option></option>").attr("value", "").text("Select District First"))
+
+
+            selector.append($("<option></option>").attr("value", "").text("Select City"))
+            $.each(JSON.parse(data), function (key, address) {
+                selector.append($("<option></option>").attr("value", address.id_kabupaten).text(address.nama_kabupaten))
+            });
+        });
+    });
+
+    $("#cities_selector").on('change', function(){
+        $.get("<?php echo base_url('index.php/address/districts/')?>" + this.value, function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
+
+            var selector = $('#district_selector');
+            selector.empty()
+            $('#village_selector').empty().append($("<option></option>").attr("value", "").text("Select District First"))
+
+            selector.append($("<option></option>").attr("value", "").text("Select District"))
+            $.each(JSON.parse(data), function (key, address) {
+                selector.append($("<option></option>").attr("value", address.id_kecamatan).text(address.nama_kecamatan))
+            });
+        });
+    });
+
+    $("#district_selector").on('change', function(){
+        $.get("<?php echo base_url('index.php/address/villages/')?>" + this.value, function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
+
+            var selector = $('#village_selector');
+            selector.empty()
+            selector.append($("<option></option>").attr("value", "").text("Select Village"))
+            $.each(JSON.parse(data), function (key, address) {
+                selector.append($("<option></option>").attr("value", address.id_desa).text(address.nama_desa))
+            });
+        });
+    });
+</script>
 <?= $this->endSection(); ?>
