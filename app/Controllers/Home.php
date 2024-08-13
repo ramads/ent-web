@@ -11,7 +11,7 @@ class Home extends BaseController
     {
         $appointments = new AppointmentModel();
 
-        $listPatient = $appointments->getAppointmentWithPatient();
+        $listPatient = $appointments->getAppointmentWithPatient(10);
         $nextPatient = $appointments->getNextAppointment();
 
         $avatar = 'male_user.png';

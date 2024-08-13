@@ -46,23 +46,28 @@ class AppointmentModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAppointmentWithPatient() {
+    public function getAppointmentWithPatient($limit = null) {
         $db      = \Config\Database::connect();
-        $builder = $db->table($this->table);
+        $query = $db->table($this->table);
 
-        $builder->select('*');
-        $builder->join('Pasien', 'Pasien.NIK = Pasien_Fasilitas_Kesehatan.NIK');
-        return $builder->get()->getResultObject();
+        $query->select('*');
+        $query->join('Pasien', 'Pasien.NIK = Pasien_Fasilitas_Kesehatan.NIK');
+        $query->orderBy("tanggal_pendaftaran", 'DESC');
+
+        // limit data
+        if ($limit) $query->limit($limit);
+
+        return $query->get()->getResultObject();
     }
 
     public function getNextAppointment() {
         $db      = \Config\Database::connect();
-        $builder = $db->table($this->table);
+        $query = $db->table($this->table);
 
-        $builder->select('*');
-        $builder->join('Pasien', 'Pasien.NIK = Pasien_Fasilitas_Kesehatan.NIK');
-        $builder->where('Pasien_Fasilitas_Kesehatan.status_periksa', 'tunggu');
-        $builder->orderBy('tanggal_pendaftaran', 'DESC');
-        return $builder->get()->getFirstRow();
+        $query->select('*');
+        $query->join('Pasien', 'Pasien.NIK = Pasien_Fasilitas_Kesehatan.NIK');
+        $query->where('Pasien_Fasilitas_Kesehatan.status_periksa', 'tunggu');
+        $query->orderBy('tanggal_pendaftaran', 'ASC');
+        return $query->get()->getFirstRow();
     }
 }

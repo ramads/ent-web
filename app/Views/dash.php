@@ -196,18 +196,18 @@
                             </p>
                             <p class="text-right"><?php echo $nextPatient->tanggal_lahir; ?></p>
                         </div>
-                        <div class="flex justify-between">
-                            <p class="font-medium text-slate-700 dark:text-navy-100">
-                                Weight
-                            </p>
-                            <p class="text-right">56 kg</p>
-                        </div>
-                        <div class="flex justify-between">
-                            <p class="font-medium text-slate-700 dark:text-navy-100">
-                                Height
-                            </p>
-                            <p class="text-right">164 cm</p>
-                        </div>
+<!--                        <div class="flex justify-between">-->
+<!--                            <p class="font-medium text-slate-700 dark:text-navy-100">-->
+<!--                                Weight-->
+<!--                            </p>-->
+<!--                            <p class="text-right">56 kg</p>-->
+<!--                        </div>-->
+<!--                        <div class="flex justify-between">-->
+<!--                            <p class="font-medium text-slate-700 dark:text-navy-100">-->
+<!--                                Height-->
+<!--                            </p>-->
+<!--                            <p class="text-right">164 cm</p>-->
+<!--                        </div>-->
                         <div class="flex justify-between">
                             <p class="font-medium text-slate-700 dark:text-navy-100">
                                 Last Appointment

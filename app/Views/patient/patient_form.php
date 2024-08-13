@@ -95,7 +95,7 @@
                                     name="city"
                                     class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                             >
-                                <option value="">Select Province First</option>
+                                <option value="">--Select Province First--</option>
                             </select>
                         </label>
                     </div>
@@ -106,7 +106,7 @@
                                     name="district"
                                     class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                             >
-                                <option value="">Select City First</option>
+                                <option value="">--Select City First--</option>
                             </select>
                         </label>
                         <label class="block">
@@ -115,13 +115,38 @@
                                     name="village"
                                     class="form-select mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                             >
-                                <option value="">Select District First</option>
+                                <option value="">--Select District First--</option>
                             </select>
                         </label>
                     </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div x-data="{sameBillingAddress:true}">
+                        <div class="flex-wrap items-start space-y-2 pt-2 sm:flex sm:space-y-0 sm:space-x-5">
+                            <label class="inline-flex items-center space-x-2">
+                                <input x-model="sameBillingAddress" class="form-checkbox is-basic size-5 rounded border-slate-400/70 checked:border-primary checked:bg-primary hover:border-primary focus:border-primary dark:border-navy-400 dark:checked:border-accent dark:checked:bg-accent dark:hover:border-accent dark:focus:border-accent"
+                                       name="appointment" type="checkbox">
+                                <span>Add patient to Appointment</span>
+                            </label>
+                        </div>
+                        <div x-show="sameBillingAddress" x-collapse="" style="height: auto; overflow: hidden;">
+                            <label class="block pt-4">
+                                <span>Appointment </span>
+                                <label class="relative flex">
+                                    <input x-init="$el._x_flatpickr = flatpickr($el,{enableTime: true, time_24hr: true, defaultDate: new Date()})" class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent flatpickr-input active"
+                                           name="appointment_time" placeholder="Choose datetime..." type="text" readonly="readonly">
+                                    <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </span>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                    </div>
 
-                    <div class="flex sm:justify-start space-x-2" style="padding-top: 20px">
-                        <button class="btn space-x-2 bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">
+                    <div class="flex sm:justify-start space-x-2" style="padding-top: 20px; justify-content: center; align-items: center">
+                        <button style="padding-inline: 60px;" class="btn space-x-2 bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">
                             <span>Save Patient</span>
                         </button>
                     </div>
@@ -146,8 +171,8 @@
 
             var selector = $('#cities_selector');
             selector.empty()
-            $('#district_selector').empty().append($("<option></option>").attr("value", "").text("Select City First"))
-            $('#village_selector').empty().append($("<option></option>").attr("value", "").text("Select District First"))
+            $('#district_selector').empty().append($("<option></option>").attr("value", "").text("--Select City First--"))
+            $('#village_selector').empty().append($("<option></option>").attr("value", "").text("--Select District First--"))
 
 
             selector.append($("<option></option>").attr("value", "").text("Select City"))
@@ -163,7 +188,7 @@
 
             var selector = $('#district_selector');
             selector.empty()
-            $('#village_selector').empty().append($("<option></option>").attr("value", "").text("Select District First"))
+            $('#village_selector').empty().append($("<option></option>").attr("value", "").text("--Select District First--"))
 
             selector.append($("<option></option>").attr("value", "").text("Select District"))
             $.each(JSON.parse(data), function (key, address) {

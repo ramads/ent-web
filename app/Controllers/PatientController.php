@@ -16,7 +16,7 @@ class PatientController extends BaseController
 
         $data = $patient->findAll();
 
-        return view('patient/index', [
+        return view('patient/patient_index', [
             'data' => $data,
         ]);
     }
@@ -26,7 +26,7 @@ class PatientController extends BaseController
         $provinces = $address->getProvinces();
 
 //        dd($provinces);
-        return view('patient/form', [
+        return view('patient/patient_form', [
             'provinces' => $provinces
         ]);
     }
@@ -43,17 +43,20 @@ class PatientController extends BaseController
                 'nama_pasien' => $this->request->getPost('nama_pasien'),
                 'alamat' => $this->request->getPost('address'),
                 'jenis_kelamin' => $this->request->getPost('gender'),
-                'tanggal_lahir' => '1990-05-15',
-                'id_desa' => '1101012002',
+                'tanggal_lahir' => $this->request->getPost('dob'),
+                'id_desa' => $this->request->getPost('village'),
             ]);
 
-            $appointment = new AppointmentModel();
-            $appointment->insert([
-                'NIK' => $this->request->getPost('NIK'),
-                'id_faskes' => 1,
-                'status_periksa' => 'tunggu',
-                'tanggal_pendaftaran' => date("Y-m-d H:i:s")
-            ]);
+            $isAddToAppointment = $this->request->getPost('appointment') == 'on';
+            if ($isAddToAppointment) {
+                $appointment = new AppointmentModel();
+                $appointment->insert([
+                    'NIK' => $this->request->getPost('NIK'),
+                    'id_faskes' => 1,
+                    'status_periksa' => 'tunggu',
+                    'tanggal_pendaftaran' => $this->request->getPost('appointment_time')
+                ]);
+            }
         }
 
             //flash message

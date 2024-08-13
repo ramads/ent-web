@@ -11,6 +11,10 @@ $routes->get('/doLogin', 'AuthController::doLogin');
 $routes->get('/patient', 'PatientController::index');
 $routes->get('/patient/add', 'PatientController::insert');
 $routes->post('/patient/save', 'PatientController::save');
+
+$routes->get('/appointment', 'AppointmentController::index');
+$routes->get('/appointment/add', 'AppointmentController::create');
+
 $routes->get('address/cities/(:num)', 'AddressController::cities/$1');
 $routes->get('address/districts/(:num)', 'AddressController::districts/$1');
 $routes->get('address/villages/(:num)', 'AddressController::villages/$1');
